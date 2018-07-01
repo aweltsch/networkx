@@ -40,3 +40,22 @@ class TestBFS:
         T = nx.bfs_tree(G, source=1)
         assert_equal(sorted(T.nodes()), [1])
         assert_equal(sorted(T.edges()), [])
+
+    def test_bfs_edges_depth_limit(self):
+        edges = nx.bfs_edges(self.G, source=0, depth_limit=2)
+        assert_equal(list(edges), [(0, 1), (1, 2), (1, 3)])
+
+    def test_bfs_tree_depth_limit(self):
+        T = nx.bfs_tree(self.G, source=0, depth_limit=2)
+        assert_equal(sorted(T.nodes()), [0, 1, 2, 3])
+        assert_equal(sorted(T.edges()), [(0, 1), (1, 2), (1, 3)])
+
+    def test_bfs_successor_depth_limit(self):
+        assert_equal(dict(nx.bfs_successors(self.G, source=0, depth_limit=2)),
+                     {0: [1], 1: [2, 3]})
+
+    def test_bfs_predecessor_depth_limit(self):
+        assert_equal(dict(nx.bfs_predecessors(self.G,
+                                              source=0,
+                                              depth_limit=2)),
+                     {1: 0, 2: 1, 3: 1})
